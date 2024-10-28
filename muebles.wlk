@@ -2,7 +2,7 @@ import cosas.*
 import academia.*
 
 class Mueble {
-    var property cosasGuardadas = #{}
+    var property cosasGuardadas
 
     method guardar(cosa) {
         if (self.puedeGuardar(cosa)) {
@@ -11,7 +11,7 @@ class Mueble {
     }
 
     method puedeGuardar(cosa) {
-        return self.validarSiEstaGuardado(cosa) and self.condicionParaGuardar(cosa)
+        return (not self.verSiEstaGuardado(cosa)) and self.condicionParaGuardar(cosa)
     }
 
     method validarSiEstaGuardado(cosa) {
@@ -47,7 +47,7 @@ class GabineteMagico inherits Mueble {
 }
 
 class Armario inherits Mueble {
-    const property capacidadMax
+    var property capacidadMax
 
     override method condicionParaGuardar(cosa) {
         return self.cantidadCosasGuardadas() + 1 <= capacidadMax
