@@ -32,6 +32,10 @@ class Academia {
 
 	method guardar(cosa) {
 	self.validarSiPuedeGuardar(cosa)
-	self.mueblesEnLosQuePuedeGuardar(cosa).anyOne().guardar(cosa)
+	self.algunMuebleDondePuedeGuardar(cosa).guardar(cosa)
+	}
+
+	method algunMuebleDondePuedeGuardar(cosa) {
+		return self.mueblesEnLosQuePuedeGuardar(cosa).anyOne()
 	}
 }
