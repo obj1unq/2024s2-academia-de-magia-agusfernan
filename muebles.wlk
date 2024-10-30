@@ -4,6 +4,7 @@ import academia.*
 class Mueble {
     var property cosasGuardadas
 
+
     method guardar(cosa) {
         if (self.puedeGuardar(cosa)) {
             cosasGuardadas.add(cosa)
@@ -25,6 +26,16 @@ class Mueble {
     }
 
     method condicionParaGuardar(cosa)
+
+    method utilidad() {
+        return self.utilidadCosasGuardadas() / self.precio()
+    }
+
+    method utilidadCosasGuardadas() {
+        return cosasGuardadas.sum({cosa => cosa.utilidad()})
+    }
+
+    method precio()
 }
 
 class Baul inherits Mueble {
@@ -37,12 +48,52 @@ class Baul inherits Mueble {
     method volumenTotal() {
         return cosasGuardadas.sum({cosa => cosa.volumen()})
     }
+
+    override method precio() {
+        return volumenMax + 2
+    }
+
+    override method utilidad() {
+        return super() + self.extra()
+    }
+
+    method extra() {
+        return if (self.todasLasCosasSonReliquias()) 2 else 0
+    }
+
+    method todasLasCosasSonReliquias() {
+        return cosasGuardadas.all({cosa => cosa.esReliquia()})
+    }
+}
+
+class BaulMagico inherits Baul {
+
+    override method precio() {
+        return super() * 2
+    }
+
+    override method utilidad() {
+        return super() + self.cantidadElementosMagicos()
+    } 
+
+    method cantidadElementosMagicos() {
+        return self.elementosMagicosGuardados().size()
+    }
+
+    method elementosMagicosGuardados() {
+        return cosasGuardadas.filter({cosa => cosa.esMagico()})
+    }
 }
 
 class GabineteMagico inherits Mueble {
-    
+    const property precio
+
     override method condicionParaGuardar(cosa) {
         return cosa.esMagico()
+    }
+
+    override method precio() {
+        return precio
     }
 }
 
@@ -55,6 +106,10 @@ class Armario inherits Mueble {
 
     method cantidadCosasGuardadas() {
         return cosasGuardadas.size()
+    }
+
+    override method precio() {
+        return 5 * capacidadMax
     }
 }
 
