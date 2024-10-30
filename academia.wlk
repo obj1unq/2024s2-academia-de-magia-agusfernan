@@ -38,4 +38,30 @@ class Academia {
 	method algunMuebleDondePuedeGuardar(cosa) {
 		return self.mueblesEnLosQuePuedeGuardar(cosa).anyOne()
 	}
+
+	method cosasMenosUtiles() {
+		return muebles.map({mueble => mueble.cosaMenosUtil()}).asSet()
+	}
+
+	method marcaMenosUtil() {
+		return self.cosasMenosUtiles().min({c => c.utilidad()}).marca()
+	}
+
+	method cantidadDeMuebles() {
+		return muebles.size()
+	}
+
+	method cosasMenosUtilesYNoMagicas() {
+		return self.cosasMenosUtiles().filter({cosa => not cosa.esMagico()})
+	}
+
+	method removercosasMenosUtilesYNoMagicas() {
+		return self.cosasMenosUtilesYNoMagicas().forEach({cosa => self.remover(cosa)})
+	}
+
+	method remover(cosa) {
+		if (self.cantidadDeMuebles() >= 3) {
+			self.muebleEnQueEstaGuardado(cosa).remover(cosa)
+		}
+	}
 }

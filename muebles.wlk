@@ -28,14 +28,22 @@ class Mueble {
     method condicionParaGuardar(cosa)
 
     method utilidad() {
-        return self.utilidadCosasGuardadas() / self.precio()
+        return self.sumaUtilidadCosasGuardadas() / self.precio()
     }
 
-    method utilidadCosasGuardadas() {
+    method sumaUtilidadCosasGuardadas() {
         return cosasGuardadas.sum({cosa => cosa.utilidad()})
     }
 
     method precio()
+
+    method cosaMenosUtil() {
+        return cosasGuardadas.min({cosa => cosa.utilidad()})
+    }
+
+    method remover(cosa) {
+        cosasGuardadas.remove(cosa)
+    }
 }
 
 class Baul inherits Mueble {
